@@ -31,18 +31,17 @@ else
     exit 1
 fi
 
-# --- Test running the AppImage (optional) ---
-echo "Testing the AppImage (this should start nvim and you can exit with :q<Enter>)..."
-./"$APPIMAGE_NAME" --version
-if [ $? -eq 0 ]; then
-    echo "AppImage test successful."
+# --- Extract the AppImage ---
+echo "Extracting the AppImage..."
+if ./"$APPIMAGE_NAME" --appimage-extract; then
+    echo "Successfully extracted AppImage."
 else
-    echo "Warning: AppImage test failed. It might still work, but investigate if needed."
+    echo "Error: Failed to extract AppImage."
+    exit 1
 fi
 
-
-# --- Move the AppImage to the installation directory (requires sudo) ---
-echo "Moving $APPIMAGE_NAME to $INSTALL_DIR/$NVIM_BINARY_NAME..."
+# --- Move the extracted Neovim binary to the installation directory (requires sudo) ---
+echo "Moving extracted nvim binary to $INSTALL_DIR..."
 # Create the directory if it doesn't exist (requires sudo)
 if sudo mkdir -p "$INSTALL_DIR"; then
     echo "Created installation directory (if it didn't exist)."
@@ -51,18 +50,16 @@ else
     exit 1
 fi
 
-# Check if the target file already exists and is the same file (in case of re-running)
-# Note: This check is a bit trickier with potential sudo, but we'll do a simpler check
+# Check if the target file already exists
 if [ -f "$INSTALL_DIR/$NVIM_BINARY_NAME" ]; then
-    echo "AppImage likely already exists at the target location. Skipping move."
+    echo "nvim binary already exists at the target location. Skipping move."
 # Move the file (requires sudo)
-elif sudo mv "$APPIMAGE_NAME" "$INSTALL_DIR/$NVIM_BINARY_NAME"; then
-    echo "Successfully moved to $INSTALL_DIR/$NVIM_BINARY_NAME."
+elif sudo mv "squashfs-root/usr/bin/nvim" "$INSTALL_DIR/$NVIM_BINARY_NAME"; then
+    echo "Successfully moved nvim binary to $INSTALL_DIR."
 else
-    echo "Error: Failed to move $APPIMAGE_NAME to $INSTALL_DIR (Permission denied?)."
+    echo "Error: Failed to move extracted nvim binary to $INSTALL_DIR (Permission denied?)."
     exit 1
 fi
-
 
 # --- Add the directory to Zsh config if not already present ---
 # This part does NOT require sudo as it modifies a user's home directory file
@@ -81,6 +78,5 @@ else
     fi
 fi
 
-echo "Neovim AppImage installation and Zsh config update complete."
+echo "Neovim installation and Zsh config update complete."
 echo "Please open a new Zsh terminal or run 'source $ZSHRC_FILE' for the changes to take effect."
-
