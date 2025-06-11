@@ -4,8 +4,7 @@ set -e
 
 # 1. Download the latest Neovim nightly tarball
 wget -O nvim-nightly.tar.gz \
-  https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
-
+  https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz
 # 2. Extract the tarball
 tar xzf nvim-nightly.tar.gz
 
