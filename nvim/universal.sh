@@ -80,4 +80,6 @@ else
     echo "Run 'zsh' and then 'source ~/.zshrc' to activate your new aliases."
 fi
 
+rm -rf linux_devenv
+
 echo "Setup complete!"
