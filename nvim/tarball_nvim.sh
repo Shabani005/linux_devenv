@@ -23,10 +23,10 @@ if ! grep -q '/usr/local/bin' ~/.zshrc; then
   echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.zshrc
 fi
 
-# 7. Source ~/.zshrc to update PATH for current session
-source ~/.zshrc
-
 # 8. Verify installation
 echo "Neovim version installed:"
 nvim --version
 git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
+
+
+echo "if it did not work do source ~/.zshrc then run nvim"
