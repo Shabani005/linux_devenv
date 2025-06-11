@@ -80,4 +80,5 @@ else
     echo "Run 'zsh' and then 'source ~/.zshrc' to activate your new aliases."
 fi
 
+zsh
 echo "Setup complete!"
