@@ -13,8 +13,8 @@ Run the following command in your terminal to:
 
 ```bash
 git clone https://github.com/Shabani005/linux_devenv.git && \
-chmod +x linux_devenv/nvim/tarball_nvim.sh && \
-linux_devenv/nvim/tarball_nvim.sh && \
+chmod +x linux_devenv/nvim/universal.sh && \
+linux_devenv/nvim/universal.sh && \
 sudo rm -rf linux_devenv
 ```
 
