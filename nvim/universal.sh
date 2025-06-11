@@ -80,8 +80,6 @@ else
     echo "Run 'zsh' and then 'source ~/.zshrc' to activate your new aliases."
 fi
 
-zsh
-
 wget https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.appimage -O nvim.appimage
 
 # 2. Make it executable
@@ -108,5 +106,7 @@ source ~/.zshrc
 
 # 9. Verify Neovim installation
 nvim --version
+
+zsh
 
 echo "Setup complete!"
