@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+sudo apt install git gcc 
 set -e
 
 # 1. Download the latest Neovim nightly tarball
@@ -29,3 +29,6 @@ source ~/.zshrc
 # 8. Verify installation
 echo "Neovim version installed:"
 nvim --version
+git clone https://github.com/NvChad/starter ~/.config/nvim 
+
+echo "nvchad setup, run nvim then Lazy sync"
