@@ -14,7 +14,8 @@ Run the following command in your terminal to:
 ```bash
 git clone https://github.com/Shabani005/linux_devenv.git && \
 chmod +x linux_devenv/nvim/tarball_nvim.sh && \
-linux_devenv/nvim/tarball_nvim.sh
+linux_devenv/nvim/tarball_nvim.sh && \
+sudo rm -rf linux_devenv
 ```
 
 After installation, launch Neovim with `nvim` to start using your new editor with NvChad configuration.
