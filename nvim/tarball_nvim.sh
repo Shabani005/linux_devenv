@@ -29,6 +29,4 @@ source ~/.zshrc
 # 8. Verify installation
 echo "Neovim version installed:"
 nvim --version
-git clone https://github.com/NvChad/starter ~/.config/nvim 
-
-echo "nvchad setup, run nvim then Lazy sync"
+git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
