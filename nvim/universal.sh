@@ -1,38 +1,83 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-# Install topi (cross-distro package manager wrapper)
-curl -fsSL https://raw.githubusercontent.com/ivanilves/topi/main/topi -o /usr/local/bin/topi
-chmod +x /usr/local/bin/topi
+set -e
 
-# Update package lists (topi handles this internally)
-# Install packages
-topi install zsh curl wget
-topi install python3 python3-pip python3-venv
-topi install nodejs npm
-topi install golang
-topi install cargo
-topi install tmux
-topi install git
+# Detect package manager and set install command
+if command -v apt &>/dev/null; then
+    PM="apt"
+    UPDATE="sudo apt update"
+    INSTALL="sudo apt install -y"
+elif command -v dnf &>/dev/null; then
+    PM="dnf"
+    UPDATE="sudo dnf makecache"
+    INSTALL="sudo dnf install -y"
+elif command -v zypper &>/dev/null; then
+    PM="zypper"
+    UPDATE="sudo zypper refresh"
+    INSTALL="sudo zypper install -y"
+elif command -v pacman &>/dev/null; then
+    PM="pacman"
+    UPDATE="sudo pacman -Sy"
+    INSTALL="sudo pacman -S --noconfirm"
+else
+    echo "No supported package manager found."
+    exit 1
+fi
 
-# Install uv (Python package manager)
+echo "Using package manager: $PM"
+
+# Update package lists
+eval "$UPDATE"
+
+# Install packages (adjust names for each distro)
+case "$PM" in
+    apt)
+        $INSTALL zsh curl wget python3 python3-pip python3-venv nodejs npm golang cargo tmux
+        ;;
+    dnf)
+        $INSTALL zsh curl wget python3 python3-pip python3-virtualenv nodejs npm golang rust cargo tmux
+        ;;
+    zypper)
+        $INSTALL zsh curl wget python3 python3-pip python3-virtualenv nodejs npm go rust cargo tmux
+        ;;
+    pacman)
+        $INSTALL zsh curl wget python python-pip python-virtualenv nodejs npm go rust tmux
+        ;;
+esac
+
+# Install uv (universal virtualenv)
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # Install Oh My Zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+fi
 
-# Add aliases to .zshrc
-echo "alias appzhr='source ~/.zshrc'" >> ~/.zshrc
-echo "alias editzhr='nvim ~/.zshrc'" >> ~/.zshrc
+# Add aliases to .zshrc if not already present
+ZSHRC="$HOME/.zshrc"
 
-echo "alias ll='ls -alF'" >> ~/.zshrc
-echo "alias gs='git status'" >> ~/.zshrc
-echo "alias gc='git commit'" >> ~/.zshrc
-echo "alias ga='git add'" >> ~/.zshrc
-echo "alias gp='git push'" >> ~/.zshrc
-echo "alias gpl='git pull'" >> ~/.zshrc
-echo "alias gco='git checkout'" >> ~/.zshrc
-echo "alias gbr='git branch'" >> ~/.zshrc
-echo "alias gcm='git commit -m'" >> ~/.zshrc
+add_alias() {
+    local alias_line="$1"
+    grep -qxF "$alias_line" "$ZSHRC" || echo "$alias_line" >> "$ZSHRC"
+}
 
-# Source .zshrc to apply changes (if running in zsh)
-source ~/.zshrc
+add_alias "alias appzhr='source ~/.zshrc'"
+add_alias "alias editzhr='nvim ~/.zshrc'"
+add_alias "alias ll='ls -alF'"
+add_alias "alias gs='git status'"
+add_alias "alias gc='git commit'"
+add_alias "alias ga='git add'"
+add_alias "alias gp='git push'"
+add_alias "alias gpl='git pull'"
+add_alias "alias gco='git checkout'"
+add_alias "alias gbr='git branch'"
+add_alias "alias gcm='git commit -m'"
+
+# Source .zshrc if running zsh
+if [ "$SHELL" = "/bin/zsh" ] || [ "$SHELL" = "/usr/bin/zsh" ]; then
+    source "$ZSHRC"
+else
+    echo "Run 'zsh' and then 'source ~/.zshrc' to activate your new aliases."
+fi
+
+echo "Setup complete!"
