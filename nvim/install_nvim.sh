@@ -1,5 +1,5 @@
 # 1. Download the AppImage
-wget https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage -O nvim.appimage
+wget https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.appimage -O nvim.appimage
 
 # 2. Make it executable
 chmod u+x nvim.appimage
