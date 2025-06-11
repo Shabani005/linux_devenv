@@ -34,4 +34,5 @@ After installation, launch Neovim with `nvim` to start using your new editor wit
 - Optimized for development
 
 ## Note
-This script will install Neovim to `/usr/local` and may require sudo privileges.
+This script will install Neovim to `/usr/local/bin` and may require sudo privileges.
+It also doesnt support bash shell yet.
