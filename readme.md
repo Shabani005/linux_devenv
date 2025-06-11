@@ -18,6 +18,14 @@ linux_devenv/nvim/tarball_nvim.sh && \
 sudo rm -rf linux_devenv
 ```
 
+to uninstall run the following command:
+```bash
+sudo rm -rf /usr/local/bin/nvim && \
+rm -rf ~/.config/nvim && \
+rm -rf ~/.local/state/nvim && \
+rm -rf ~/.local/share/nvim
+```
+
 After installation, launch Neovim with `nvim` to start using your new editor with NvChad configuration.
 
 ## Features
