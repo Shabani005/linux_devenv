@@ -9,11 +9,11 @@ wget -O nvim-nightly.tar.gz \
 tar xzf nvim-nightly.tar.gz
 
 # 3. Move the extracted directory to /opt (requires sudo)
-sudo rm -rf /opt/nvim-linux64  # Remove any previous install
-sudo mv nvim-linux64 /opt/
+sudo rm -rf /opt/nvim-linux-x86_64  # Remove any previous install
+sudo mv nvim-linux-x86_64 /opt/
 
 # 4. Symlink the nvim binary to /usr/local/bin
-sudo ln -sf /opt/nvim-linux64/bin/nvim /usr/local/bin/nvim
+sudo ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim
 
 # 5. Clean up
 rm nvim-nightly.tar.gz
